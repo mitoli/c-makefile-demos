@@ -1,13 +1,13 @@
-CXX = g++
-CXXFLAGS = -O3 -std=c++17 -pthread
+CC = gcc
+CFLAGS =
 WARNING = -Wall -Wextra
 
-TARGETS = $(patsubst %.cc, %, $(wildcard *.cc))
+TARGETS = $(patsubst %.c, %, $(wildcard *.c))
 
 all: $(TARGETS)
 
 %: %.cc Makefile
-	$(CXX) -MMD -MP $(CXXFLAGS) $(WARNING) $@.cc -o $@
+	$(CC) $(CFLAGS) $(WARNING) $@.c -o $@
 
 .PHONY: all clean
 
