@@ -12,4 +12,4 @@ all: $(TARGETS)
 .PHONY: all clean
 
 clean:
-	rm -f $(TARGETS) *.o
+	rm -f $(TARGETS) *.o *.d
