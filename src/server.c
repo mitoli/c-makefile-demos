@@ -7,11 +7,10 @@
 #include "common.h"
 
 #define BUFF_SIZE 1024
-#define LISTEN_BACKLOG 5
 
 int main(int argc, char **argv) {
-    int listen_fd = socket(AF_INET, SOCK_STREAM, 0);
-    if (listen_fd < 0) {
+    int sock_fd = socket(AF_INET, SOCK_STREAM, 0);
+    if (sock_fd < 0) {
         perror("socket error");
         return 1;
     }
@@ -22,12 +21,12 @@ int main(int argc, char **argv) {
     server_addr.sin_addr.s_addr = htonl(INADDR_ANY);
     server_addr.sin_port = htons(13);
 
-    if (bind(listen_fd, (struct sockaddr *) &server_addr, sizeof(server_addr)) < 0) {
+    if (bind(sock_fd, (struct sockaddr *) &server_addr, sizeof(server_addr)) < 0) {
         perror("bind error");
         return 1;
     }
 
-    if (listen(listen_fd, LISTEN_BACKLOG) < 0) {
+    if (listen(sock_fd, 5) < 0) {
         perror("listen error");
         return 1;
     }
@@ -35,7 +34,7 @@ int main(int argc, char **argv) {
     while (1) {
         struct sockaddr_in client_addr;
         socklen_t client_len = sizeof(client_addr);
-        int conn_fd = accept(listen_fd, (struct sockaddr *) &client_addr, &client_len);
+        int conn_fd = accept(sock_fd, (struct sockaddr *) &client_addr, &client_len);
 
         char buff[BUFF_SIZE];
         printf("connection from %s, port %d\n", inet_ntop(AF_INET, &client_addr.sin_addr, buff, sizeof(buff)), ntohs(client_addr.sin_port));
