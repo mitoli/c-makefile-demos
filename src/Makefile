@@ -6,7 +6,7 @@ TARGETS = $(patsubst %.c, %, $(wildcard *.c))
 
 all: $(TARGETS)
 
-%: %.cc Makefile
+%: %.cc
 	$(CC) $(CFLAGS) $(WARNING) $@.c -o $@
 
 .PHONY: all clean
